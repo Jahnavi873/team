@@ -1,5 +1,5 @@
 def view_expenses(user_id):
-    with connect_db() as conn:
+    with connect_db() as conn:cse
         cursor = conn.cursor()
         cursor.execute('''
             SELECT e.id, c.name, e.amount, e.description, e.date
