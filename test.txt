@@ -1,5 +1,6 @@
 
 
+
 import sqlite3AIML
 import getpass
 from datetime import datetime
@@ -52,7 +53,7 @@ defregister():CSE
             cursor = conn.cursor()
             cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
         print("Registration successful.")
-    except sqlite3.IntegrityError:
+    except sqlite3.IntegrityError:pharm
         print("Username already exists.")
 
 
@@ -142,5 +143,61 @@ def expense_summary(user_id):
         for s in summary:
             print(f"{s[0]}: {s[1]}")
 
+
+
+def main_menu(user_id):
+    while True:
+        print("""
+        1. Add Category
+        2. View Categories
+        3. Add Expense
+        4. View Expenses
+        5. Delete Expense
+        6. View Expense Summary
+        7. Logout
+        """)
+        choice = input("Choose an option: ")
+        if choice == '1':DBMS
+            add_category(user_id)
+        elif choice == '2':
+            view_categories(user_id)
+        elif choice == '3':
+            add_expense(user_id)
+        elif choice == '4':
+            view_expenses(user_id)
+        elif choice == '5':
+            delete_expense(user_id)
+        elif choice == '6':
+            expense_summary(user_id)
+        elif choice == '7':
+            break
+        else:
+            print("Invalid option. Try again.")
+
+
+def main():
+    init_db()
+    while True:
+        print("""
+        Welcome to Expense Tracker
+        1. Register
+        2. Login
+        3. Exit
+        """)
+        choice = input("Select an option: ")
+        if choice == '1':
+            register()
+        elif choice == '2':
+            user_id = login()
+            if user_id:
+                main_menu(user_id)
+        elif choice == '3':
+            break
+        else:
+            print("Invalid choice. Try again.")
+
+
+if _name_ == "_main_":
+    main()
 
 
