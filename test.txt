@@ -10,7 +10,7 @@ def main_menu(user_id):
         7. Logout
         """)
         choice = input("Choose an option: ")
-        if choice == '1':
+        if choice == '1':DBMS
             add_category(user_id)
         elif choice == '2':
             view_categories(user_id)
