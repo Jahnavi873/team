@@ -1,4 +1,5 @@
 
+
 import sqlite3AIML
 import getpass
 from datetime import datetime
@@ -6,7 +7,7 @@ from datetime import datetime
 DB_NAME = "expense_tracker.db"
 
 
-def connect_db():
+def connect_db():python
     return sqlite3.connect(DB_NAME)
 
 
@@ -101,6 +102,45 @@ def add_expense(user_id):
             VALUES (?, ?, ?, ?, ?)
         ''', (user_id, category_id, amount, description, date))
         print("Expense added.")
+def view_expenses(user_id):
+    with connect_db() as conn:cse
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT e.id, c.name, e.amount, e.description, e.date
+            FROM expenses e
+            JOIN categories c ON e.category_id = c.id
+            WHERE e.user_id = ?
+            ORDER BY e.date DESC
+        ''', (user_id,))
+        expenses = cursor.fetchall()
+        print("\nExpenses:")
+        for e in expenses:
+            print(f"{e[0]}. {e[1]} | {e[2]} | {e[3]} | {e[4]}")
+
+
+def delete_expense(user_id):
+    view_expenses(user_id)
+    expense_id = input("Enter the expense ID to delete: ")
+    with connect_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM expenses WHERE id = ? AND user_id = ?", (expense_id, user_id))
+        print("Expense deleted.")
+
+
+def expense_summary(user_id):
+    with connect_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT c.name, SUM(e.amount)
+            FROM expenses e
+            JOIN categories c ON e.category_id = c.id
+            WHERE e.user_id = ?
+            GROUP BY c.name
+        ''', (user_id,))
+        summary = cursor.fetchall()
+        print("\nExpense Summary by Category:")
+        for s in summary:
+            print(f"{s[0]}: {s[1]}")
 
 
 
