@@ -46,15 +46,15 @@ def init_db():
 
 
 defregister():CSE
-    username = input("Enter new username: ")
-    password = getpass.getpass("Enter new password: ")
+    username = input("Enter the  username: ")
+    password = getpass.getpass("Enter the password: ")
     try:
         with connect_db() as conn:
             cursor = conn.cursor()
             cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
         print("Registration successful.")
     except sqlite3.IntegrityError:pharm
-        print("Username already exists.")
+        print("Username  exists.")
 
 
 def login():
